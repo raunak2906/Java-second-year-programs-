@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Login - Orma Store</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    /* Your existing CSS */
+    :root {
+      --primary: #2563eb;
+      --primary-soft: #eff6ff;
+      --primary-dark: #1d4ed8;
+      --bg: #f9fafb;
+      --card: #ffffff;
+      --text: #111827;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+      --radius: 1rem;
+      --shadow: 0 18px 45px rgba(15, 23, 42, 0.08);
+      --transition: all 0.25s ease;
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+    body {
+      min-height: 100vh;
+      background: var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      color: var(--text);
+    }
+    .card {
+      width: 100%;
+      max-width: 420px;
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      padding: 1.8rem 1.6rem 1.6rem;
+    }
+    .logo {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 0.8rem;
+    }
+    .logo img {
+      height: 52px;
+    }
+    h1 {
+      font-size: 1.3rem;
+      text-align: center;
+      margin-bottom: 0.3rem;
+    }
+    .sub {
+      font-size: 0.85rem;
+      color: var(--muted);
+      text-align: center;
+      margin-bottom: 1.4rem;
+    }
+    label {
+      display: block;
+      font-size: 0.82rem;
+      margin-bottom: 0.25rem;
+      font-weight: 500;
+    }
+    input {
+      width: 100%;
+      padding: 0.6rem 0.7rem;
+      border-radius: 0.6rem;
+      border: 1px solid var(--border);
+      outline: none;
+      font-size: 0.9rem;
+      transition: var(--transition);
+    }
+    input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 1px var(--primary-soft);
+    }
+    .field {
+      margin-bottom: 0.9rem;
+    }
+    .btn {
+      width: 100%;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      padding: 0.7rem 1rem;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.35rem;
+    }
+    .btn-primary {
+      background: var(--primary);
+      color: #ffffff;
+      box-shadow: 0 10px 26px rgba(37, 99, 235, 0.35);
+    }
+    .btn-primary:hover {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+    }
+    .btn-ghost {
+      background: transparent;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      margin-top: 0.75rem;
+    }
+    .btn-ghost:hover {
+      border-color: var(--primary);
+      color: var(--primary-dark);
+      background: var(--primary-soft);
+    }
+    .otp-box {
+      display: none;
+      margin-top: 1rem;
+      padding-top: 0.9rem;
+      border-top: 1px dashed var(--border);
+    }
+    .otp-row {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      margin-bottom: 0.4rem;
+    }
+    .otp-row input {
+      flex: 1;
+    }
+    .info {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-bottom: 0.4rem;
+    }
+    .status {
+      font-size: 0.8rem;
+      margin-top: 0.5rem;
+      min-height: 1rem;
+    }
+    .status.ok {
+      color: #16a34a;
+    }
+    .status.err {
+      color: #dc2626;
+    }
+    .back-link {
+      margin-top: 1.2rem;
+      text-align: center;
+      font-size: 0.8rem;
+    }
+    .back-link a {
+      color: var(--primary);
+    }
+    @media (max-width: 480px) {
+      .card {
+        padding: 1.5rem 1.3rem 1.3rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="card">
+  <div class="logo">
+    <img src="static/img/orma/04.png" alt="Orma" />
+  </div>
+  <h1>Email Login</h1>
+  <p class="sub">Enter your email and verify using OTP to log in.</p>
+  <form id="loginForm">
+    <div class="field">
+      <label for="email">Email address</label>
+      <input name="email" type="email" id="email" placeholder="you@example.com" required />
+    </div>
+    <button type="submit" class="btn btn-primary" id="sendOtpBtn">Send OTP</button>
+  </form>
+  <div class="otp-box" id="otpBox">
+    <p class="info">Enter the 6-digit OTP sent to your email.</p>
+    <div class="otp-row">
+      <input type="text" id="otpInput" maxlength="6" placeholder="Enter OTP" />
+    </div>
+    <button class="btn btn-primary" id="verifyOtpBtn">Verify & Login</button>
+    <button class="btn btn-ghost" id="resendBtn">Resend OTP</button>
+    <div class="status" id="statusMsg"></div>
+  </div>
+  <div class="back-link">
+    <a href="/">← Back to Home</a>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+<script>
+  // Initialize EmailJS
+  emailjs.init('Cmy1oz5tRPu0__zx5'); // Replace with your EmailJS public key
+
+  const loginForm = document.getElementById('loginForm');
+  const verifyOtpBtn = document.getElementById('verifyOtpBtn');
+  const resendBtn = document.getElementById('resendBtn');
+  const emailInput = document.getElementById('email');
+  const otpInput = document.getElementById('otpInput');
+  const otpBox = document.getElementById('otpBox');
+  const statusMsg = document.getElementById('statusMsg');
+
+  let generatedOtp = null;
+  let userEmail = null;
+
+  // Generate 6-digit OTP
+  function generateOtp() {
+    return Math.floor(100000 + Math.random() * 900000).toString();
+  }
+
+  // Send OTP using EmailJS
+  function sendOtp(email) {
+    generatedOtp = generateOtp();
+    const templateParams = {
+      email: email,
+      passcode: generatedOtp
+	  
+    };
+
+    statusMsg.textContent = '';
+
+    emailjs
+      .send('service_jzfwi9s', 'template_z8bf0ll', templateParams) // Replace with your EmailJS service & template IDs
+      .then(
+        (response) => {
+          console.log('Email sent', response.status, response.text);
+          statusMsg.textContent = `OTP sent to ${email}`;
+          statusMsg.className = 'status ok';
+          otpBox.style.display = 'block';
+        },
+        (error) => {
+          console.error('Failed to send email:', error);
+          statusMsg.textContent = 'Failed to send OTP. Please try again.';
+          statusMsg.className = 'status err';
+        }
+      );
+  }
+
+  // Form submit event for sending OTP
+  loginForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    userEmail = emailInput.value.trim();
+    if (!userEmail) {
+      statusMsg.textContent = 'Please enter your email.';
+      statusMsg.className = 'status err';
+      return;
+    }
+    sendOtp(userEmail);
+  });
+
+  // Verify OTP
+  verifyOtpBtn.addEventListener('click', () => {
+    const userOtp = otpInput.value.trim();
+    statusMsg.textContent = '';
+    statusMsg.className = 'status';
+
+    if (!userOtp) {
+      statusMsg.textContent = 'Please enter the OTP.';
+      statusMsg.className = 'status err';
+      return;
+    }
+
+    if (userOtp === generatedOtp) {
+      statusMsg.textContent = 'OTP verified! Login successful.';
+      
+	  
+	  
+	 fetch("/login_email", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+        email: "nitinbhana12@gmail.com"
+    })
+});
+	
+	 statusMsg.className = 'status ok';
+	 window.location.href = "/";
+	  
+      // Redirect user or call backend API here
+      // window.location.href = 'dashboard.html';
+    } else {
+      statusMsg.textContent = 'Incorrect OTP. Please try again.';
+      statusMsg.className = 'status err';
+    }
+  });
+
+  // Resend OTP
+  resendBtn.addEventListener('click', () => {
+    if (!userEmail) {
+      statusMsg.textContent = 'Please enter your email first.';
+      statusMsg.className = 'status err';
+      return;
+    }
+    sendOtp(userEmail);
+  });
+</script>
+
+</body>
+</html>

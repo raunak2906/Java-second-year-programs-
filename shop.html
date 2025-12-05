@@ -1,0 +1,393 @@
+{%if ('user' in session )%}
+	{% extends "after_login_layout.html" %}
+{%else%}
+	{%extends "layout.html"%}
+{%endif%}
+{%block body%}
+
+
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8" />
+  <title>All Products - NovaMart</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-soft: #eff6ff;
+      --primary-dark: #1d4ed8;
+      --accent: #f97316;
+      --bg: #f9fafb;
+      --card: #ffffff;
+      --text: #111827;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+      --radius: 1rem;
+      --shadow: 0 18px 45px rgba(15, 23, 42, 0.08);
+      --transition: all 0.25s ease;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      padding: 1.2rem;
+      max-width: 1180px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: var(--primary-dark);
+      font-weight: 700;
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .controls > * {
+      flex: 1 1 200px;
+      min-width: 150px;
+    }
+
+    input[type="text"], select {
+      width: 100%;
+      padding: 0.5rem;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.25s ease;
+    }
+
+    input[type="text"]:focus, select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 5px var(--primary);
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1.1rem;
+    }
+
+    .product-card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 0.85rem;
+      border: 1px solid var(--border);
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.04);
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      cursor: pointer;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .product-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
+      border-color: #d1d5db;
+    }
+
+    .product-img {
+      border-radius: 0.8rem;
+      overflow: hidden;
+      margin-bottom: 0.5rem;
+      background: #f3f4f6;
+      position: relative;
+      height: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+	  
+    }
+
+    .product-img img {
+      max-height: 180px;
+      width: auto;
+      transition: transform 0.35s ease;
+      transform-origin: center;
+    }
+
+    .product-card:hover .product-img img {
+      transform: scale(1.06);
+    }
+
+    .product-info {
+      display: flex;
+      flex-direction: column;
+      gap: 0.12rem;
+      flex-grow: 1;
+    }
+
+    .product-name {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--primary-dark);
+    }
+
+    .product-brand {
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    .rating {
+      font-size: 0.72rem;
+      color: #f59e0b;
+      font-weight: 600;
+    }
+
+    .product-bottom {
+      margin-top: 0.35rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.4rem;
+    }
+
+    .price {
+      font-size: 0.94rem;
+      font-weight: 600;
+      color: var(--primary-dark);
+    }
+
+    .price small {
+      margin-left: 0.25rem;
+      font-size: 0.78rem;
+      color: var(--muted);
+      text-decoration: line-through;
+      font-weight: 400;
+    }
+
+    .add-btn {
+      border: none;
+      outline: none;
+      padding: 0.32rem 0.75rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      cursor: pointer;
+      background: var(--primary-soft);
+      color: var(--primary-dark);
+      transition: var(--transition);
+      white-space: nowrap;
+    }
+
+    .add-btn:hover {
+      background: var(--primary);
+      color: #ffffff;
+      box-shadow: 0 10px 28px rgba(37, 99, 235, 0.35);
+      transform: translateY(-1px);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .product-grid {
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      }
+    }
+
+    @media (max-width: 480px) {
+      .product-grid {
+        grid-template-columns: 1fr;
+      }
+      .product-img {
+        height: 150px;
+      }
+      .product-img img {
+        max-height: 150px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>All Products</h1>
+
+  <div class="controls">
+    <input type="text" id="searchInput" placeholder="Search products..." aria-label="Search products" />
+
+    <select id="categoryFilter" aria-label="Filter by category">
+      <option value="all">All Categories</option>
+      <option value="Headphones">Headphones</option>
+      <option value="Smartwatch">Smartwatches</option>
+      <option value="Laptop">Laptops</option>
+      <option value="Sneakers">Sneakers</option>
+    </select>
+
+    <select id="sortSelect" aria-label="Sort products">
+      <option value="default">Sort by</option>
+      <option value="price-asc">Price — Low to High</option>
+      <option value="price-desc">Price — High to Low</option>
+      <option value="rating-desc">Rating — High to Low</option>
+      <option value="rating-asc">Rating — Low to High</option>
+    </select>
+  </div>
+
+  <div class="product-grid" id="productGrid">
+    <!-- Product cards populated by JS -->
+  </div>
+
+  <script>
+    // Example dynamic product data passed from backend (replace this by actual backend integration)
+    const pd = [
+      
+	  {%for i in pd %}{
+        name: "{{i.name}}",
+        brand: "ORMA",
+        rating: 4.8,
+        price: "{{i.price}}",
+        oldPrice: "{{(i.price+i.price/6) | round(2) }}",
+        category: "Headphones",
+        img: "/static/img/pdimg/{{i.sno}}/01.jpeg",
+		id:"{{i.sno}}"
+      },
+	  {%endfor%}
+      <!-- { -->
+        <!-- name: "Aurora AMOLED Smartwatch", -->
+        <!-- brand: "PulseFit Nova", -->
+        <!-- rating: 4.4, -->
+        <!-- price: 3199, -->
+        <!-- oldPrice: 5499, -->
+        <!-- category: "Smartwatch", -->
+        <!-- img: "https://images.pexels.com/photos/845434/pexels-photo-845434.jpeg?auto=compress&cs=tinysrgb&w=800" -->
+      <!-- }, -->
+      <!-- { -->
+        <!-- name: "Ultralite 14\" Laptop", -->
+        <!-- brand: "ZenCore Air", -->
+        <!-- rating: 4.7, -->
+        <!-- price: 58990, -->
+        <!-- oldPrice: 74990, -->
+        <!-- category: "Laptop", -->
+        <!-- img: "https://images.pexels.com/photos/267394/pexels-photo-267394.jpeg?auto=compress&cs=tinysrgb&w=800" -->
+      <!-- }, -->
+      <!-- { -->
+        <!-- name: "Velocity Foam Sneakers", -->
+        <!-- brand: "AeroRun Flux", -->
+        <!-- rating: 4.5, -->
+        <!-- price: 3699, -->
+        <!-- oldPrice: 5999, -->
+        <!-- category: "Sneakers", -->
+        <!-- img: "https://images.pexels.com/photos/1124465/pexels-photo-1124465.jpeg?auto=compress&cs=tinysrgb&w=800" -->
+      <!-- } -->
+    ];
+
+    const products = pd; // Use dynamic product array from backend
+    const productGrid = document.getElementById('productGrid');
+    const searchInput = document.getElementById('searchInput');
+    const categoryFilter = document.getElementById('categoryFilter');
+    const sortSelect = document.getElementById('sortSelect');
+
+    function renderProducts(items) {
+      if (items.length === 0) {
+        productGrid.innerHTML = '<p>No products found.</p>';
+        return;
+      }
+      productGrid.innerHTML = items.map(product => `
+       <article class="product-card" tabindex="0">
+	 
+          <div class="product-img">  <a href='/single_item/${product.id}'> 
+            <img src="${product.img}" alt="${product.name}" />
+          </div>
+          <div class="product-info">
+            <div class="product-name">${product.name}</div>
+            <div class="product-brand">${product.brand}</div>
+            <div class="rating">${'★'.repeat(Math.floor(product.rating))}${product.rating % 1 ? '☆' : ''} · ${product.rating.toFixed(1)}</div>
+          </div>
+          <div class="product-bottom">
+            <div class="price">₹${product.price.toLocaleString()} <small>₹${product.oldPrice.toLocaleString()}</small></div>
+           <!-- <a href="${product.id}"> <button class="add-btn" type="button">Add to cart</button></a> -->
+        </a> <button class="add-btn" onclick="addToCart(${product.id})" type="button">Add to cart</button>
+
+		 </div>
+        </article>
+      `).join('');
+    }
+
+    function filterSortProducts() {
+      let filtered = products;
+
+      const selectedCategory = categoryFilter.value;
+      if (selectedCategory !== 'all') {
+        filtered = filtered.filter(p => p.category === selectedCategory);
+      }
+
+      const searchText = searchInput.value.trim().toLowerCase();
+      if (searchText !== '') {
+        filtered = filtered.filter(p => p.name.toLowerCase().includes(searchText));
+      }
+
+      const sortValue = sortSelect.value;
+      if (sortValue === 'price-asc') {
+        filtered.sort((a, b) => a.price - b.price);
+      } else if (sortValue === 'price-desc') {
+        filtered.sort((a, b) => b.price - a.price);
+      } else if (sortValue === 'rating-desc') {
+        filtered.sort((a, b) => b.rating - a.rating);
+      } else if (sortValue === 'rating-asc') {
+        filtered.sort((a, b) => a.rating - b.rating);
+      }
+
+      renderProducts(filtered);
+    }
+
+    renderProducts(products);
+
+    searchInput.addEventListener('input', filterSortProducts);
+    categoryFilter.addEventListener('change', filterSortProducts);
+    sortSelect.addEventListener('change', filterSortProducts);
+  </script>
+
+
+
+</script>  
+
+
+<script>
+function addToCart(id) {
+    let cart = getCookie("cart");
+
+    if (cart) {
+        cart = cart.split(",");
+        if (!cart.includes(String(id))) {
+            cart.push(id);
+        }
+        document.cookie = "cart=" + cart.join(",") + "; path=/";
+    } else {
+        document.cookie = "cart=" + id + "; path=/";
+    }
+
+    alert("Added to cart");
+}
+
+function getCookie(name) {
+    let match = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
+    return match ? match[2] : null;
+}
+</script>
+
+
+
+
+</body>
+</html>
+{%endblock%}

@@ -1,0 +1,211 @@
+{%if ('user' in session )%}
+	{% extends "after_login_layout.html" %}
+{%else%}
+	{%extends "layout.html"%}
+{%endif%}
+{%block body%}
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container hero-grid">
+      <div>
+        <div class="eyebrow">
+          <span class="eyebrow-dot"></span>
+          Festive Sale · Up to 60% off
+        </div>
+       <h1 class="gradient-text">WISDOM OF NATURE IN EVERY WASH</h1>
+		<p class="hero-sub">
+          Orma is a premium natural-care brand delivering the pure essence of nature in every wash.
+Our products are crafted with safe, skin-friendly, and scientifically tested natural ingredients to ensure superior quality and trusted results.
+		  
+		  
+        </p>
+
+        <div class="hero-actions">
+        <a href="/shop"> <button class="btn btn-primary">Start shopping</button></a>
+          <!-- <button class="btn btn-outline">View best sellers</button> -->
+        </div>
+
+        <div class="hero-meta">
+          <div>
+            <strong>50K+</strong>
+            Happy customers
+          </div>
+          <div>
+            <strong>2–4 days</strong>
+            Average delivery
+          </div>
+          <div>
+            <strong>Secure</strong>
+            UPI / Cards / COD
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-card">
+        <div class="hero-chip">Today’s highlight</div>
+        <div class="hero-slider">
+          <div class="hero-slider-track">
+            <div class="hero-slide">
+              <img src="/static/img/orma/offer/05.png" alt="Smartwatch" >
+              <!-- <div class="hero-slide-badge">Smartwatches · From ₹2,999</div> -->
+            </div>
+            <div class="hero-slide">
+              <img src="/static/img/orma/offer/06.png" alt="Headphones">
+              <!-- <div class="hero-slide-badge">Headphones · Up to 55% off</div> -->
+            </div>
+            <div class="hero-slide">
+              <img src="/static/img/orma/offer/04.png" alt="Laptop">
+              <!-- <div class="hero-slide-badge">Laptops · Exchange bonus</div> -->
+            </div>
+          </div>
+        </div>
+        <!-- <div class="hero-price">Starting at ₹3,999</div> -->
+      </div>
+    </div>
+  </section>
+
+  <!-- CATEGORIES + PRODUCTS -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Trending now</h2>
+          <p class="section-sub">Most loved products this week.</p>
+        </div>
+       <a href="/shop"> <p class="section-sub">View all →</p></a>
+      </div>
+
+      <!-- <div class="cat-row"> -->
+        <!-- <button class="chip active">All</button> -->
+        <!-- <button class="chip">Smartphones</button> -->
+        <!-- <button class="chip">Laptops</button> -->
+        <!-- <button class="chip">Smartwatches</button> -->
+        <!-- <button class="chip">Headphones</button> -->
+        <!-- <button class="chip">Sneakers</button> -->
+        <!-- <button class="chip">Home & Kitchen</button> -->
+      <!-- </div> -->
+
+      <div class="product-grid">
+        <!-- Product 1 -->
+		{%for i in pd%}
+		
+        <article class="product-card"><a href="single_item/{{i.sno}}">
+          <div class="product-img">
+            <img src="/static/img/pdimg/{{i.sno}}/01.jpeg" alt="{{i.name}}" height="250" style="display:block;margin:auto;">
+          </div>
+          <div class="product-info">
+            <div class="product-name">{{i.name}}</div>
+            <div class="product-brand">ORMA</div>
+            <!-- <div class="rating">★★★★★ · 4.8</div> -->
+          </div>
+          <div class="product-bottom">
+           </a>
+		   <div class="price">₹{{i.price}}<small>₹{{(i.price+i.price/6) | round(2) }}</small></div>
+            <!-- <button class="add-btn" onclick="addToCart({{i.sno}})">Add to cart</button> -->
+         
+		 </div>
+        </article>
+		
+{%endfor%}
+        <!-- Product 2 -->
+        <!-- <article class="product-card"> -->
+          <!-- <div class="product-img"> -->
+            <!-- <img src="https://images.pexels.com/photos/845434/pexels-photo-845434.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Smartwatch"> -->
+          <!-- </div> -->
+          <!-- <div class="product-info"> -->
+            <!-- <div class="product-name">Aurora AMOLED Smartwatch</div> -->
+            <!-- <div class="product-brand">PulseFit Nova</div> -->
+            <!-- <div class="rating">★★★★☆ · 4.4</div> -->
+          <!-- </div> -->
+          <!-- <div class="product-bottom"> -->
+            <!-- <div class="price">₹3,199 <small>₹5,499</small></div> -->
+            <!-- <button class="add-btn">Add to cart</button> -->
+          <!-- </div> -->
+        <!-- </article> -->
+
+         <!-- Product 3 --> 
+        <!-- <article class="product-card"> -->
+          <!-- <div class="product-img"> -->
+            <!-- <img src="https://images.pexels.com/photos/267394/pexels-photo-267394.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Laptop"> -->
+          <!-- </div> -->
+          <!-- <div class="product-info"> -->
+            <!-- <div class="product-name">Ultralite 14&quot; Laptop</div> -->
+            <!-- <div class="product-brand">ZenCore Air</div> -->
+            <!-- <div class="rating">★★★★★ · 4.7</div> -->
+          <!-- </div> -->
+          <!-- <div class="product-bottom"> -->
+            <!-- <div class="price">₹58,990 <small>₹74,990</small></div> -->
+            <!-- <button class="add-btn">Add to cart</button> -->
+          <!-- </div> -->
+        <!-- </article> -->
+
+         <!-- Product 4 -->
+        <!-- <article class="product-card"> -->
+          <!-- <div class="product-img"> -->
+            <!-- <img src="https://images.pexels.com/photos/1124465/pexels-photo-1124465.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Sneakers"> -->
+          <!-- </div> -->
+          <!-- <div class="product-info"> -->
+            <!-- <div class="product-name">Velocity Foam Sneakers</div> -->
+            <!-- <div class="product-brand">AeroRun Flux</div> -->
+            <!-- <div class="rating">★★★★☆ · 4.5</div> -->
+          <!-- </div> -->
+          <!-- <div class="product-bottom"> -->
+            <!-- <div class="price">₹3,699 <small>₹5,999</small></div> -->
+            <!-- <button class="add-btn">Add to cart</button> -->
+          <!-- </div> -->
+        <!-- </article> -->
+      </div>
+
+      <!-- CTA / Newsletter -->
+      <div class="cta-row">
+        <div>
+          <h3>Get exclusive offers in your inbox</h3>
+          <p>Join our newsletter for early access to new launches and special discounts.</p>
+        </div>
+        <div class="cta-inputs">
+          <input type="email" placeholder="Enter your email" required>
+          <button type="button">Join for free</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+
+<script>
+function addToCart(id) {
+    let cart = getCookie("cart");   // पुरानी cookie मिलेगी
+
+    if (cart) {
+        // अगर cookie है → नए id को जोड़ दो (comma se)
+        cart = cart.split(",");
+        if (!cart.includes(String(id))) {   // duplicate na ho
+            cart.push(id);
+        }
+        document.cookie = "cart=" + cart.join(",") + "; path=/";
+    } else {
+        // अगर cookie नहीं है → नई बना दो
+        document.cookie = "cart=" + id + "; path=/";
+    }
+
+    alert("Added to cart);
+}
+
+// Cookie पढ़ने का आसान function
+function getCookie(name) {
+    let match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+    return match ? match[2] : null;
+}
+</script>
+
+
+
+
+
+
+
+
+
+  {%endblock%}

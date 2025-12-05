@@ -1,0 +1,216 @@
+{% if ('user' in session ) %}
+	{% extends "after_login_layout.html" %}
+{% else %}
+	{% extends "layout.html" %}
+{% endif %}
+
+{% block body %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Payment - NovaMart</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --primary:#2563eb;
+    --primary-dark:#1d4ed8;
+    --bg:#f9fafb;
+    --card:#fff;
+    --text:#111827;
+    --muted:#6b7280;
+    --border:#e5e7eb;
+    --radius:1rem;
+    --shadow:0 18px 45px rgba(15,23,42,0.08);
+  }
+
+  body{
+    background:var(--bg);
+    font-family:"Poppins",sans-serif;
+    padding:1rem;
+  }
+
+  /* --- GRID LAYOUT --- */
+  .main-wrapper{
+    max-width:1100px;
+    margin:auto;
+    display:grid;
+    grid-template-columns:1fr 0.8fr;
+    gap:2rem;
+  }
+
+  /* MOBILE RESPONSIVE */
+  @media(max-width:850px){
+    .main-wrapper{
+      grid-template-columns:1fr;
+    }
+  }
+
+  .containertwo{
+    background:var(--card);
+    padding:2rem;
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    text-align:center;
+  }
+
+  h1{
+    color:var(--primary-dark);
+    margin-bottom:1rem;
+  }
+
+  .details{
+    margin-bottom:1.5rem;
+    color:var(--text);
+    font-size:1rem;
+  }
+
+  #qrcode{
+    margin:auto;
+    margin-top:10px;
+    margin-bottom:20px;
+  }
+
+  label{
+    display:block;
+    text-align:left;
+    font-weight:600;
+    margin-top:1rem;
+    margin-bottom:0.4rem;
+  }
+
+  input{
+    width:100%;
+    padding:0.8rem 1rem;
+    border:1px solid var(--border);
+    border-radius:0.6rem;
+  }
+
+  button{
+    width:100%;
+    padding:0.85rem;
+    background:var(--primary);
+    border:none;
+    margin-top:1.2rem;
+    border-radius:999px;
+    color:#fff;
+    font-size:1.1rem;
+    font-weight:700;
+    cursor:pointer;
+  }
+
+  button:hover{
+    background:var(--primary-dark);
+  }
+
+  .success{
+    display:none;
+    margin-top:1rem;
+    padding:1rem;
+    background:#d1fae5;
+    color:#065f46;
+    border-radius:0.6rem;
+    font-weight:600;
+  }
+
+  /* RIGHT SIDE BOX */
+  .instructions{
+    background:var(--card);
+    padding:2rem;
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+  }
+
+  .instructions h2{
+    margin-bottom:1rem;
+    color:var(--primary-dark);
+  }
+
+  .instructions ul{
+    padding-left:1.2rem;
+    line-height:1.7;
+    font-size:1rem;
+  }
+
+  .instructions li{
+    margin-bottom:0.6rem;
+  }
+
+</style>
+</head>
+
+<body>
+
+<div class="main-wrapper">
+
+  <!-- LEFT PAYMENT BOX -->
+  <div class="containertwo">
+    <h1>Complete Your Payment</h1>
+
+    <div class="details">
+      <b></b>ORMA<br>
+      <b>Amount:</b> ₹{{o_id.amt}} <br>
+      <b>Order ID:</b> {{o_id.order_id}} <br> 
+    </div>
+
+    <div id="qrcode"></div>
+<form action="/payment_done/{{o_id.order_id}}" method="post">
+    <label>Enter UTR / Transaction ID</label>
+    <input type="text" id="utr" name="utr"placeholder="Example: 324908234982" />
+
+    <button onclick="confirmPayment()">Confirm Payment</button>
+</form>
+    <div class="success" id="successMsg">✅ Payment Verified! Your order is successful.</div>
+  </div>
+
+
+  <!-- RIGHT SIDE INSTRUCTIONS -->
+  <div class="instructions">
+    <h2>📌 Instructions</h2>
+
+    <ul>
+      <li>QR को किसी भी UPI ऐप से स्कैन करें (PhonePe, GPay, Paytm)</li>
+      <li>Amount स्कैन करने पर अपने-आप भर जाएगा</li>
+      <li>सही UTR / Transaction ID डालें</li>
+      <li>UTR गलत होने पर Payment verify नहीं होगा</li>
+      <li>Payment confirm करने के बाद आपकी order तुरंत activate हो जाएगी</li>
+      <li>कोई समस्या हो तो support team से संपर्क करें</li>
+    </ul>
+  </div>
+
+</div>
+
+<!-- QR CODE LIBRARY -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+<script>
+  const upi_id = "7222918682@pthdfc";
+  const name = "{{ name }}";
+  const amount = "{{ o_id.amt }}";
+
+  const upi_link = `upi://pay?pa=${upi_id}&pn=${name}&am=${amount}`;
+
+  new QRCode(document.getElementById("qrcode"), {
+      text: upi_link,
+      width: 230,
+      height: 230
+  });
+
+  function confirmPayment(){
+      let utr = document.getElementById("utr").value.trim();
+      if(utr.length < 6){
+          alert("Please enter a valid UTR number");
+          return;
+      }
+      document.getElementById("successMsg").style.display = "block";
+  }
+</script>
+
+</body>
+</html>
+
+{% endblock %}
